@@ -1,27 +1,12 @@
 import React, { useState } from 'react';
-import { TextInput, Button, Text, View, StyleSheet } from 'react-native';
-import axios from 'axios';
+import { TextInput, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { router } from 'expo-router';
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
-
-  const handleRegister = async () => {
-    try {
-      const response = await axios.post('https://lorcana.brybry.fr/api/register', {
-        name,
-        email,
-        password,
-        password_confirmation: passwordConfirmation,
-      });
-      console.log(response.data);
-      navigation.navigate('Login');
-    } catch (error) {
-      console.log('Erreur :', error.response.data);
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -38,6 +23,7 @@ const RegisterScreen = ({ navigation }) => {
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
+        autoCapitalize="none"
       />
       <TextInput
         style={styles.input}
@@ -53,7 +39,18 @@ const RegisterScreen = ({ navigation }) => {
         onChangeText={setPasswordConfirmation}
         secureTextEntry
       />
-      <Button title="S'inscrire" onPress={handleRegister} />
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>S'inscrire</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+        style={styles.loginLink} 
+        onPress={() => router.replace('/login')}
+      >
+        <Text style={styles.loginText}>
+          Vous avez déjà un compte ? Connectez-vous
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -63,21 +60,45 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#E8F0F2', // Couleur douce de fond
+    backgroundColor: '#E8F0F2',
   },
   title: {
     fontSize: 30,
     textAlign: 'center',
-    marginBottom: 20,
-    color: '#4A90E2', // Couleur inspirée de Lorcana/Disney
+    marginBottom: 30,
+    color: '#4A90E2',
+    fontWeight: 'bold',
   },
   input: {
-    height: 40,
+    height: 50,
     borderColor: '#4A90E2',
     borderWidth: 1,
     marginBottom: 15,
-    paddingLeft: 10,
-    borderRadius: 5,
+    paddingLeft: 15,
+    borderRadius: 8,
+    backgroundColor: 'white',
+    fontSize: 16,
+  },
+  button: {
+    backgroundColor: '#4A90E2',
+    padding: 15,
+    borderRadius: 8,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  loginLink: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  loginText: {
+    color: '#4A90E2',
+    fontSize: 16,
+    textAlign: 'center',
   },
 });
 

@@ -2,36 +2,36 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Colors } from '../utils/colors';
 import { MaterialIcons } from '@expo/vector-icons';
+import LottieView from 'lottie-react-native';
 
 export default function CardItem({ card, onPress }) {
-  console.log('CardItem - Rendering card:', {
-    id: card.id,
-    name: card.name,
-    thumbnail: card.thumbnail,
-    image: card.image,
-    image_url: card.image_url,
-    imageUrl: card.imageUrl,
-    img_url: card.img_url
-  });
-
   const imageUrl = card.thumbnail || card.image || card.image_url || card.imageUrl || card.img_url;
-  console.log('CardItem - Using image URL:', imageUrl);
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
-      <Image 
-        source={{ uri: imageUrl }} 
-        style={styles.image} 
-        resizeMode="contain"
-        onError={(error) => {
-          console.error('CardItem - Image loading error:', {
-            error,
-            imageUrl,
-            cardId: card.id,
-            cardName: card.name
-          });
-        }}
-      />
+      <View style={styles.imageContainer}>
+        <Image 
+          source={{ uri: imageUrl }} 
+          style={styles.image} 
+          resizeMode="contain"
+          onError={(error) => {
+            console.error('CardItem - Image loading error:', {
+              error,
+              imageUrl,
+              cardId: card.id,
+              cardName: card.name
+            });
+          }}
+        />
+        {card.foil_quantity > 0 && (
+          <LottieView
+            source={require('../assets/animations/magic-sparkles.json')}
+            autoPlay
+            loop
+            style={styles.sparkleAnimation}
+          />
+        )}
+      </View>
       <View style={styles.info}>
         <Text style={styles.name}>{card.name}</Text>
         <Text style={styles.rarity}>{card.rarity}</Text>
@@ -52,12 +52,26 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBg,
     borderRadius: 15,
     padding: 15,
-    marginBottom: 10
+    marginBottom: 10,
+    overflow: 'hidden'
+  },
+  imageContainer: {
+    position: 'relative',
+    marginRight: 15,
+    overflow: 'hidden'
   },
   image: {
     width: 100,
     height: 140,
-    marginRight: 15
+    borderRadius: 8
+  },
+  sparkleAnimation: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    pointerEvents: 'none'
   },
   info: {
     flex: 1,

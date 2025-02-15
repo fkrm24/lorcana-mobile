@@ -6,6 +6,7 @@ export default function AuthLayout() {
       screenOptions={{
         headerShown: false,
       }}
+      initialRouteName="register"
     />
   );
 }

@@ -37,8 +37,8 @@ export default function Index() {
       } catch (error) {
         console.error('Error fetching sets:', error);
         if (error.message.includes('Unauthenticated')) {
-          // Si non authentifié, on peut rediriger vers la page de login
-          router.replace('/(auth)/login');
+          // Redirection vers la page register au lieu de login
+          router.replace('/(auth)/register');
         }
       } finally {
         setLoading(false);

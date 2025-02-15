@@ -56,6 +56,15 @@ export default function Login() {
         onPress={handleLogin} 
         isLoading={isLoading}
       />
+
+      <TouchableOpacity 
+        style={styles.registerLink} 
+        onPress={() => router.replace('/register')}
+      >
+        <Text style={styles.registerText}>
+          Vous n'avez pas encore de compte ? Inscrivez-vous
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -81,5 +90,14 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 20,
     fontSize: 16
+  },
+  registerLink: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  registerText: {
+    color: Colors.secondary,
+    fontSize: 16,
+    textAlign: 'center',
   }
 });

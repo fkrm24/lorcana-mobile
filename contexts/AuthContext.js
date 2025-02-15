@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../services/api';
+import { router } from 'expo-router';
 
 export const AuthContext = createContext();
 
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       await AsyncStorage.removeItem('userToken');
       setUserToken(null);
+      router.replace('/(auth)/register');
     }
   };
 
@@ -46,6 +48,8 @@ export const AuthProvider = ({ children }) => {
           console.error('Token invalide:', error);
           await logout();
         }
+      } else {
+        router.replace('/(auth)/register');
       }
     } catch (e) {
       console.error('Erreur lors de la vérification du login:', e);
